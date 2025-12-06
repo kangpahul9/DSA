@@ -37,7 +37,6 @@ int rotatedSortedArray(int arr[], int st, int end, int target)
             return rotatedSortedArray(arr, st, mid - 1, target);
         }
     }
-    return -1;
 }
 
 int main()
