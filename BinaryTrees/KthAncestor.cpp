@@ -31,7 +31,7 @@ Node * buildTree(vector<int>nodes){
 int kthAncestor(Node * root,int node, int K){ 
     if (root==NULL)
     {
-        return NULL;
+        return -1;
     }
     
     if (root->val==node)
@@ -44,7 +44,6 @@ int kthAncestor(Node * root,int node, int K){
         return -1;
     }
     int validVal = dist1==-1 ? dist2 : dist1;
-    return NULL;
     if (validVal+1==K)
     {
         cout<<"Kth Ancestor: "<<root->val;
@@ -56,7 +55,7 @@ int kthAncestor(Node * root,int node, int K){
 int main(){
     vector<int> nodes = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
     Node * root = buildTree(nodes);
-    
+    int KthAncestor=kthAncestor(root,4,2);
 
 
     return 0;   
