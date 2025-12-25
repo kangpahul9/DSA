@@ -19,21 +19,20 @@ private:
         int mid = st + (end-st)/2;
         buildTree(arr,st,mid,2*node+1);
         buildTree(arr,mid+1,end,2*node+2);
-        tree[node]=tree[node*2 + 1] + tree[node*2 + 2];
+        tree[node]=max(tree[node*2 + 1],tree[node*2 + 2]);
     }
-    int rangeSum(int qi, int qj, int si, int sj, int node){
+    int rangeMax(int qi, int qj, int si, int sj, int node){
         if (qj < si || qi > sj)
         {
-            return 0;
+            return INT_MIN;
         }
         if (si >= qi && sj <= qj)
         {
             return tree[node];
         }
         int mid = si + (sj-si)/2;
-        return rangeSum(qi,qj, si, mid, 2*node+1) + rangeSum(qi,qj,mid+1,sj, 2*node+2);
+        return max(rangeMax(qi,qj, si, mid, 2*node+1),rangeMax(qi,qj,mid+1,sj, 2*node+2));
     }
-
     void updateUtil(int idx, int val, int si, int sj, int node){
         if (si==sj)
         {
@@ -49,9 +48,8 @@ private:
         else{
             updateUtil(idx,val,mid+1,sj,2*node+2);
         }
-        tree[node]=tree[node*2 + 1] + tree[node*2 + 2];
+        tree[node]=max(tree[node*2 + 1],tree[node*2 + 2]);
     }
-    
 public:
     SegmentTree(vector<int> &arr){
         n=arr.size();
@@ -66,19 +64,17 @@ public:
         }
         cout<<endl;
     }
-
-
     int rangeQuery(int qi, int qj){
-        return rangeSum(qi,qj,0,n-1,0);
+        return rangeMax(qi,qj,0,n-1,0);
     }
-
     void updateQuery(int idx, int val){
         updateUtil(idx,val,0,n-1,0);
     }
+
 };
 
 int main(){
-    vector<int>arr={1,2,3,4,5,6,7,8};
+    vector<int>arr={6,8,-1,2,17,1,3,2,4};
     SegmentTree ST(arr);
     ST.printTree();
     cout<<ST.rangeQuery(2,5)<<endl;
